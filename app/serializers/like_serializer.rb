@@ -1,4 +1,13 @@
 class LikeSerializer < ActiveModel::Serializer
-  attributes :id
-  has_one :likeable
+  attributes :id, :newObject, :newLikes
+
+
+  def newObject
+    self.object.likeable
+  end
+
+  def newLikes
+    self.object.likeable.likes.count
+  end
+
 end

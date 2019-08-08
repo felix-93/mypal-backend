@@ -20,9 +20,14 @@ class Api::V1::PostsController < ApplicationController
         render json: { post: FullPostSerializer.new(post) }
     end
 
+    def destroy
+        post = Post.find(params[:id])
+    end
+
     private
 
     def post_params
-        params.require(:post).permit(:title, :content, :img)
+        params.require(:post).permit(:user_id, :title, :content, :img)
     end
+    
 end
