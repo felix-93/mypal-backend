@@ -1,8 +1,4 @@
 class Api::V1::LikesController < ApplicationController
-    # def index
-    #     @likes = Like.all
-    #     render json: {likes: @likes}
-    # end
 
     def create
         @like = Like.create(like_params)
@@ -12,7 +8,7 @@ class Api::V1::LikesController < ApplicationController
     def destroy
         @like = Like.find(params[:id])
         @like.destroy
-        render json: { message: "Your like has been deleted." }
+        render json: { like: LikeSerializer.new(@like) }, status: :created
     end
 
     private

@@ -4,5 +4,4 @@ class FullPostSerializer < ActiveModel::Serializer
     def user
       UserSerializer.new(self.object.user)
     end
-  
 end

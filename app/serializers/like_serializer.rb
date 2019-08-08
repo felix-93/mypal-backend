@@ -1,13 +1,9 @@
 class LikeSerializer < ActiveModel::Serializer
-  attributes :id, :newObject, :newLikes
+  attributes :id, :newObject
 
 
   def newObject
-    self.object.likeable
-  end
-
-  def newLikes
-    self.object.likeable.likes.count
+    PostSerializer.new(self.object.likeable)
   end
 
 end
