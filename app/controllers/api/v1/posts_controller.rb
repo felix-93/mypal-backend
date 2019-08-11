@@ -17,7 +17,7 @@ class Api::V1::PostsController < ApplicationController
 
     def show
         post = Post.find(params[:id])
-        render json: { post: FullPostSerializer.new(post) }
+        render json: { post: PostSerializer.new(post) }
     end
 
     def destroy

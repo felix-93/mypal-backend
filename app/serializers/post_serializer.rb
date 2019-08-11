@@ -14,7 +14,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def comments
-    self.object.comments
+    self.object.comments.map{|comment| CommentSerializer.new(comment) }
   end
 
 
