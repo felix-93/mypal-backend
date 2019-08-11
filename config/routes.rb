@@ -7,6 +7,7 @@ Rails.application.routes.draw do
           resources :likes, only: [:create, :destroy]
           post '/login', to: 'auth#create'
           get '/validate', to: 'auth#validate'
+          post '/scroll', to: 'posts#custom_index'
       end
   end
 end

@@ -24,10 +24,24 @@ class Api::V1::PostsController < ApplicationController
         post = Post.find(params[:id])
     end
 
+    def custom_index
+        index = scroll_params["index"]
+        if Post.all.length <= index+1
+            render json: { errors: "No Post left" }, status: :created
+        else
+            @posts = Post.all.sort_by{|post| post.created_at}.reverse[index..(index+3)]
+            render json: @posts
+        end
+    end
+
     private
 
     def post_params
         params.require(:post).permit(:user_id, :title, :content, :img)
+    end
+
+    def scroll_params
+        params.permit(:index)
     end
     
 end
