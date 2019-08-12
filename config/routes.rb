@@ -8,6 +8,7 @@ Rails.application.routes.draw do
           post '/login', to: 'auth#create'
           get '/validate', to: 'auth#validate'
           post '/scroll', to: 'posts#custom_index'
+          post '/myposts', to: 'posts#myposts'
       end
   end
 end
