@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_130705) do
+ActiveRecord::Schema.define(version: 2019_08_15_161026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 2019_08_11_130705) do
     t.string "password_digest"
     t.string "avatar"
     t.string "biography"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_foreign_key "comments", "posts"

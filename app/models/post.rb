@@ -1,9 +1,7 @@
 class Post < ApplicationRecord
   belongs_to :user
-  has_many :likes, as: :likeable, :dependent => :destroy
-  has_many :comments, :dependent => :destroy
-  belongs_to :user
-
+  has_many :likes, as: :likeable, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   def time_mark
     if ((Time.now - self.created_at) / 3600) > 24 # Show days
