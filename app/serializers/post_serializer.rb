@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :content, :img, :username, :time_mark, :likes, :comments, :integerTime
+  attributes :id, :title, :content, :img, :username, :time_mark, :likes, :comments, :integerTime, :type
 
   def username
     self.object.user.username
@@ -19,6 +19,10 @@ class PostSerializer < ActiveModel::Serializer
 
   def integerTime
     self.object.created_at.to_i
+  end
+
+  def type
+    self.object.class.name
   end
 
 end
