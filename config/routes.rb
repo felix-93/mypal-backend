@@ -9,6 +9,9 @@ Rails.application.routes.draw do
           get '/validate', to: 'auth#validate'
           post '/scroll', to: 'posts#custom_index'
           post '/myposts', to: 'posts#myposts'
+          resources :conversations, only: [:index, :create]
+          resources :messages, only: [:create]
+          mount ActionCable.server => '/cable'
       end
   end
 end
