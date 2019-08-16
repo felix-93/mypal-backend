@@ -1,4 +1,7 @@
 class Api::V1::MessagesController < ApplicationController
+    skip_before_action :authorize, only: [:create]
+    
+
     def create
         message = Message.new(message_params)
         conversation = Conversation.find(message_params[:conversation_id])
