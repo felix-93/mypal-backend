@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :title, :biography, :year, :month, :day.fir, :avatar
+  attributes :id, :username, :title, :biography, :year, :month, :day, :avatar
 
   def title
     self.object.username
