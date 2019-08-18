@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_16_115448) do
+ActiveRecord::Schema.define(version: 2019_08_17_211812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chatlogs", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "conversation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_chatlogs_on_conversation_id"
+    t.index ["user_id"], name: "index_chatlogs_on_user_id"
+  end
 
   create_table "comments", force: :cascade do |t|
     t.string "text"
@@ -66,6 +75,8 @@ ActiveRecord::Schema.define(version: 2019_08_16_115448) do
     t.datetime "updated_at"
   end
 
+  add_foreign_key "chatlogs", "conversations"
+  add_foreign_key "chatlogs", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "likes", "users"

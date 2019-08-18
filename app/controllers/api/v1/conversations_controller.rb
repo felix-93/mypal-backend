@@ -6,20 +6,36 @@ class Api::V1::ConversationsController < ApplicationController
         render json: conversations
       end
     
-      def create
-        conversation = Conversation.new(conversation_params)
-        if conversation.save
+    def create
+      if params[:id]
+        conversation = Conversation.find(params[:id])
+      else
+        conversation = Conversation.find{|conversation| conversation.users.ids.include?(params[:userOne][:id]) && conversation.users.ids.include?(params[:userTwo][:id])}
+      end
+      if conversation
           serialized_data = ActiveModelSerializers::Adapter::Json.new(
             ConversationSerializer.new(conversation)
           ).serializable_hash
           ActionCable.server.broadcast 'conversations_channel', serialized_data
-          head :ok
+          render json: conversation
+        else
+          conversation = Conversation.create
+          Chatlog.create(user: User.find(params[:userOne][:id]), conversation: conversation)
+          Chatlog.create(user: User.find(params[:userTwo][:id]), conversation: conversation)
+          conversation.title = conversation.users.map(&:username).join(" & ")
+          conversation.save
+          serialized_data = ActiveModelSerializers::Adapter::Json.new(
+              ConversationSerializer.new(conversation)
+            ).serializable_hash
+            ActionCable.server.broadcast 'conversations_channel', serialized_data
+          render json: conversation
         end
       end
       
       private
       
-      def conversation_params
-        params.require(:conversation).permit(:title)
-      end
+      # def conversation_params
+      #   params.require(:conversation).permit(:title, :userOne, :userTwo, :id)
+      # end
+
 end
