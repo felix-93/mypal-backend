@@ -1,10 +1,16 @@
 class Api::V1::ConversationsController < ApplicationController
     skip_before_action :authorize, only: [:index, :create]
 
-    def index
-        conversations = Conversation.all
-        render json: conversations
-      end
+    # def index
+    #     conversations = Conversation.all
+    #     render json: conversations
+    # end
+
+    def show
+      user = User.find(params[:id])
+      conversations = user.conversations
+      render json: conversations
+    end
     
     def create
       if params[:id]
@@ -13,10 +19,6 @@ class Api::V1::ConversationsController < ApplicationController
         conversation = Conversation.find{|conversation| conversation.users.ids.include?(params[:userOne][:id]) && conversation.users.ids.include?(params[:userTwo][:id])}
       end
       if conversation
-          serialized_data = ActiveModelSerializers::Adapter::Json.new(
-            ConversationSerializer.new(conversation)
-          ).serializable_hash
-          ActionCable.server.broadcast 'conversations_channel', serialized_data
           render json: conversation
         else
           conversation = Conversation.create
@@ -24,13 +26,9 @@ class Api::V1::ConversationsController < ApplicationController
           Chatlog.create(user: User.find(params[:userTwo][:id]), conversation: conversation)
           conversation.title = conversation.users.map(&:username).join(" & ")
           conversation.save
-          serialized_data = ActiveModelSerializers::Adapter::Json.new(
-              ConversationSerializer.new(conversation)
-            ).serializable_hash
-            ActionCable.server.broadcast 'conversations_channel', serialized_data
           render json: conversation
         end
-      end
+    end
       
       private
       
