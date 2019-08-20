@@ -1,10 +1,10 @@
 class Api::V1::ConversationsController < ApplicationController
     skip_before_action :authorize, only: [:index, :create]
 
-    # def index
-    #     conversations = Conversation.all
-    #     render json: conversations
-    # end
+      # def index
+      #     conversations = Conversation.all
+      #     render json: conversations
+      # end
 
     def show
       user = User.find(params[:id])
