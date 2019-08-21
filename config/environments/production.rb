@@ -82,4 +82,11 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  #ActionCable whitelist
+  config.action_cable.url = ENV["REDIS_URL"]
+  config.action_cable.disable_request_forgery_protection = true
+
+  config.web_socket_server_url = "wss://mypal-backend.herokuapp.com/api/v1/cable"
+  config.action_cable.allowed_request_origins = ['https://mypal-backend.herokuapp.com', 'http://mypal-backend.herokuapp.com']
 end
