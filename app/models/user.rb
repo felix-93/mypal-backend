@@ -4,6 +4,7 @@ class User < ApplicationRecord
     has_many :likes, through: :posts
     has_many :likes, through: :comments
     has_many :chatlogs
+    has_many :messages
     has_many :conversations, through: :chatlogs
 
 
