@@ -20,14 +20,14 @@ class Api::V1::ConversationsController < ApplicationController
       end
       if conversation
           render json: conversation
-        else
+      else
           conversation = Conversation.create
           Chatlog.create(user: User.find(params[:userOne][:id]), conversation: conversation)
           Chatlog.create(user: User.find(params[:userTwo][:id]), conversation: conversation)
           conversation.title = conversation.users.map(&:username).join(" & ")
           conversation.save
           render json: conversation
-        end
+      end
     end
       
       private
